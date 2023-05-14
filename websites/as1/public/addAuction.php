@@ -1,22 +1,25 @@
 <?php
 session_start();
+//Connecting to the database
 require 'pdoconnection.php';
 
-$displayMessage = ""; // Variable to store the message for display
+//displaying message
+$displayMessage = ""; 
 
+//using if statement
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve form data
+    // Retriving data from the form
     $title = isset($_POST['title']) ? $_POST['title'] : '';
     $description = isset($_POST['description']) ? $_POST['description'] : '';
     $endDate = isset($_POST['endDate']) ? $_POST['endDate'] : '';
     $category = isset($_POST['category']) ? $_POST['category'] : '';
     $categoryId = isset($_POST['categoryId']) ? $_POST['categoryId'] : '';
 
-    // Establish the database connection
+   
 
-    // Check if the connection was successful
+    // Checking connection is successful or not
     if ($nep) {
-        // Prepare and execute the SQL query
+        // preparing and executing the codes
         $sqlStatement = $nep->prepare("INSERT INTO auction (title, description, endDate, category, categoryId) VALUES (?, ?, ?, ?, ?)");
         $sqlStatement->bindValue(1, $title);
         $sqlStatement->bindValue(2, $description);
@@ -30,16 +33,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $displayMessage = "Error: " . $sqlStatement->errorInfo()[2];
         }
 
-        // Close the prepared statement
+        // Closing
         $sqlStatement->closeCursor();
 
-        // Close the database connection
+        // Closed
         $nep = null;
     } else {
         $displayMessage = "Failed to connect to the database.";
     }
 }
 ?>
+  <!-- HTML form is used to retrieve data -->
 
 <!DOCTYPE html>
 <html>

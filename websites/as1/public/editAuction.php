@@ -3,32 +3,32 @@ session_start();
 require 'pdoconnection.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve form data
+    // Retrieving form data
     $title = isset($_POST['title']) ? $_POST['title'] : '';
     $description = isset($_POST['description']) ? $_POST['description'] : '';
     $endDate = isset($_POST['endDate']) ? $_POST['endDate'] : '';
     $category = isset($_POST['category']) ? $_POST['category'] : '';
     $categoryId = isset($_POST['categoryId']) ? $_POST['categoryId'] : '';
 
-    // Establish the database connection
+   
 
-    // Check if the connection was successful
+    // Checking if the connection was successful
     if ($nep) {
-        // Prepare and execute the SQL query to retrieve existing data
+        // Preparing and executing the SQL query to retrieve existing data
         $selectStatement = $nep->prepare("SELECT * FROM auction WHERE categoryId = ?");
         $selectStatement->bindValue(1, $categoryId);
         $selectStatement->execute();
         $existingData = $selectStatement->fetch(PDO::FETCH_ASSOC);
 
-        // Check if data exists for the provided categoryId
+        // Checking if data exists for the provided categoryId
         if ($existingData) {
-            // Update the existing data with the form values
+            // Updating the existing data with the form values
             $title = !empty($title) ? $title : $existingData['title'];
             $description = !empty($description) ? $description : $existingData['description'];
             $endDate = !empty($endDate) ? $endDate : $existingData['endDate'];
             $category = !empty($category) ? $category : $existingData['category'];
 
-            // Prepare and execute the SQL query to update the data
+            // Preparing and executing the SQL query to update the data
             $updateStatement = $nep->prepare("UPDATE auction SET title = ?, description = ?, endDate = ?, category = ? WHERE categoryId = ?");
             $updateStatement->bindValue(1, $title);
             $updateStatement->bindValue(2, $description);
@@ -42,16 +42,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo "Error: " . $updateStatement->errorInfo()[2];
             }
 
-            // Close the prepared statement
+            // Closing the prepared statement
             $updateStatement->closeCursor();
         } else {
             echo "No data found for the provided Category ID.";
         }
 
-        // Close the prepared statement
+        // Closing the prepared statement
         $selectStatement->closeCursor();
 
-        // Close the database connection
+        // Closing the database connection
         $nep = null;
     } else {
         echo "Failed to connect to the database.";

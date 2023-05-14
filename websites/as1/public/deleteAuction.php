@@ -1,14 +1,14 @@
 <?php
 session_start();
+//Connecting to the database
 require 'pdoconnection.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve form data
+    // Retrieving form data
     $categoryId = isset($_POST['categoryId']) ? $_POST['categoryId'] : '';
 
-    // Establish the database connection
 
-    // Check if the connection was successful
+    // Checking whether connection will be successful or not
     if ($nep) {
         // Prepare and execute the SQL query
         $sqlStatement = $nep->prepare("DELETE FROM auction WHERE categoryId = ?");
@@ -20,10 +20,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Error: " . $sqlStatement->errorInfo()[2];
         }
 
-        // Close the prepared statement
+        // Closing the prepared statement
         $sqlStatement->closeCursor();
 
-        // Close the database connection
+        // Closing the database connection
         $nep = null;
     } else {
         echo "Failed to connect to the database.";
