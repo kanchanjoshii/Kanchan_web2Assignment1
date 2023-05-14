@@ -1,16 +1,17 @@
 <?php
 session_start();
+//Connecting to the database
 require 'pdoconnection.php';
 
-// Check if the connection was successful
+// Checking the following connection is working or not
 if (!$nep) {
     echo "Failed to connect to the database.";
     exit;
 }
 
-// Handle form submission
+// Handling the following submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve form data
+    // Retriving data from the form
     $reviewText = isset($_POST['reviewText']) ? $_POST['reviewText'] : '';
 
     // Prepare and execute the SQL query
@@ -23,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error submitting review: " . $sqlStatement->errorInfo()[2];
     }
 
-    // Close the prepared statement
+    // Closing prepared statement
     $sqlStatement->closeCursor();
 }
 ?>

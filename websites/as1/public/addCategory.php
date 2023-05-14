@@ -1,14 +1,17 @@
 <?php
 session_start();
+//Connecting to the database
 require 'pdoconnection.php';
 
-$displayMessage = ""; // Variable to store the message for display
+$displayMessage = ""; // Messsage to display the variable
 
 if ($nep) {
+    //using echo tag
     echo "Connected";
     echo '<br>';
 }
 
+//if statement is being used
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve form inputs
     $name = $_POST["name"];
@@ -25,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// Retrieve the latest category from the database
+// Retriving latest category to display
 $latestCategoryStatement = $nep->query("SELECT name FROM category ORDER BY name DESC LIMIT 1");
 $latestCategory = $latestCategoryStatement->fetchColumn();
 

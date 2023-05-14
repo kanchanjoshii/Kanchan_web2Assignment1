@@ -2,30 +2,30 @@
 session_start();
 require 'pdoconnection.php';
 
-$error = ""; // Initialize the error variable
-$category_id = ""; // Initialize the category ID variable
-$name = ""; // Initialize the name variable
+$error = ""; // Initializing the error variable
+$category_id = ""; // Initializing the category ID variable
+$name = ""; // Initializing the name variable
 
 if ($nep) {
     echo "Connected";
     echo '<br>';
 }
 
-// Check if category ID is provided in the query string
+// Checking if category ID is provided in the query string
 if (isset($_GET['category_id'])) {
     $category_id = $_GET['category_id'];
     
     try {
-        // Retrieve category details from the database
+        // Retrieving category details from the database
         $sql = "SELECT * FROM category WHERE categoryId = :category_id";
         $sqlStatement = $nep->prepare($sql);
         $sqlStatement->bindParam(':category_id', $category_id);
         $sqlStatement->execute();
         $category = $sqlStatement->fetch(PDO::FETCH_ASSOC);
         
-        // Check if category exists
+        // Checking if category exists
         if ($category) {
-            $name = $category['name']; // Get the name from the category details
+            $name = $category['name']; // Getting the name from the category details
         } else {
             $error = "Category not found.";
         }
@@ -35,12 +35,12 @@ if (isset($_GET['category_id'])) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve form inputs
+    // Retrieving form inputs
     $category_id = $_POST["category_id"];
     $name = $_POST["name"];
 
     try {
-        // Prepare SQL statement based on whether a category ID is present or not
+        // Preparing SQL statement based on whether a category ID is present or not
         if ($category_id) {
             $sqlStatement = $nep->prepare("UPDATE category SET name = :name WHERE categoryId = :category_id");
             $sqlStatement->bindParam(':category_id', $category_id);

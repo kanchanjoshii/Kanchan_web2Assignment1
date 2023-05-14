@@ -1,14 +1,15 @@
 <?php
 session_start();
+//Connecting to the database
 require 'pdoconnection.php';
 
-// Check if the connection was successful
+// Checking whether the connection is successful or not
 if (!$nep) {
     echo "Failed to connect to the database.";
     exit;
 }
 
-// Handle form submission
+// Handling form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve form data
     $bidAmount = isset($_POST['amount']) ? $_POST['amount'] : '';
@@ -23,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error submitting bid: " . $sqlStatement->errorInfo()[2];
     }
 
-    // Close the prepared statement
+    // Closing the prepared statement
     $sqlStatement->closeCursor();
 }
 ?>
